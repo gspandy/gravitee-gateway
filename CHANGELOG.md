@@ -8,7 +8,7 @@
 
 **Merged pull requests:**
 
-- fix\(reporter\): Update the configuration file for elasticsearch reporter [\#89](https://github.com/gravitee-io/gravitee-gateway/pull/89)
+- Update the configuration file for elasticsearch reporter [\#89](https://github.com/gravitee-io/gravitee-gateway/pull/89)
 
 ## [0.14.0](https://github.com/gravitee-io/gravitee-gateway/tree/0.14.0) (2016-06-14)
 [Full Changelog](https://github.com/gravitee-io/gravitee-gateway/compare/0.13.0...0.14.0)
