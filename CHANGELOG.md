@@ -1,14 +1,5 @@
 # Change Log
 
-## [Unreleased](https://github.com/gravitee-io/gravitee-gateway/tree/HEAD)
-
-[Full Changelog](https://github.com/gravitee-io/gravitee-gateway/compare/0.15.0...HEAD)
-
-**Merged pull requests:**
-
-- feat\(endpoint\): Disable automatically unavailable endpoint [\#91](https://github.com/gravitee-io/gravitee-gateway/pull/91) ([brasseld](https://github.com/brasseld))
-- feat\(healthcheck\): Health-check service is calculating the endpoint s… [\#90](https://github.com/gravitee-io/gravitee-gateway/pull/90) ([brasseld](https://github.com/brasseld))
-
 ## [0.15.0](https://github.com/gravitee-io/gravitee-gateway/tree/0.15.0) (2016-06-21)
 [Full Changelog](https://github.com/gravitee-io/gravitee-gateway/compare/0.14.1...0.15.0)
 
