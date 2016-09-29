@@ -13,29 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gravitee.gateway.handlers.api.spring;
+package io.gravitee.gateway.handlers.api.policy;
 
-import io.gravitee.gateway.handlers.api.manager.ApiManager;
-import io.gravitee.gateway.handlers.api.manager.impl.ApiManagerImpl;
-import io.gravitee.gateway.handlers.api.validator.Validator;
-import io.gravitee.gateway.handlers.api.validator.ValidatorImpl;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import io.gravitee.gateway.policy.impl.PolicyChain;
+import io.gravitee.policy.api.PolicyResult;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
-@Configuration
-public class ApiHandlerConfiguration {
+public class PolicyChainResult {
 
-    @Bean
-    public ApiManager apiManager() {
-        return new ApiManagerImpl();
+    private final PolicyResult policyResult;
+    private final PolicyChain policyChain;
+
+    public PolicyChainResult(final PolicyChain policyChain, final PolicyResult policyResult) {
+        this.policyChain = policyChain;
+        this.policyResult = policyResult;
     }
 
-    @Bean
-    public Validator validator() {
-        return new ValidatorImpl();
+    public PolicyResult getPolicyResult() {
+        return policyResult;
+    }
+
+    public PolicyChain getPolicyChain() {
+        return policyChain;
+    }
+
+    public boolean isFailure() {
+        return policyResult != null && policyResult.isFailure();
     }
 }

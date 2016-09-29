@@ -13,29 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gravitee.gateway.handlers.api.spring;
+package io.gravitee.gateway.reactor.handler.el;
 
-import io.gravitee.gateway.handlers.api.manager.ApiManager;
-import io.gravitee.gateway.handlers.api.manager.impl.ApiManagerImpl;
-import io.gravitee.gateway.handlers.api.validator.Validator;
-import io.gravitee.gateway.handlers.api.validator.ValidatorImpl;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import io.gravitee.gateway.reactor.handler.ExecutionContextImpl;
+
+import java.util.Map;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
-@Configuration
-public class ApiHandlerConfiguration {
+public class EvaluableExecutionContext {
 
-    @Bean
-    public ApiManager apiManager() {
-        return new ApiManagerImpl();
+    private final ExecutionContextImpl executionContext;
+
+    public EvaluableExecutionContext(ExecutionContextImpl executionContext) {
+        this.executionContext = executionContext;
     }
 
-    @Bean
-    public Validator validator() {
-        return new ValidatorImpl();
+    public Map<String, Object> getAttributes() {
+        return executionContext.getAttributes();
     }
 }

@@ -13,29 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gravitee.gateway.handlers.api.spring;
+package io.gravitee.gateway.http.core.loadbalancer;
 
-import io.gravitee.gateway.handlers.api.manager.ApiManager;
-import io.gravitee.gateway.handlers.api.manager.impl.ApiManagerImpl;
-import io.gravitee.gateway.handlers.api.validator.Validator;
-import io.gravitee.gateway.handlers.api.validator.ValidatorImpl;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import io.gravitee.definition.model.Endpoint;
+import io.gravitee.gateway.api.Request;
+import io.gravitee.gateway.api.http.loadbalancer.LoadBalancerStrategy;
 
 /**
  * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
-@Configuration
-public class ApiHandlerConfiguration {
+public class SingleEndpointLoadBalancerStrategy implements LoadBalancerStrategy {
 
-    @Bean
-    public ApiManager apiManager() {
-        return new ApiManagerImpl();
+    private final Endpoint endpoint;
+
+    public SingleEndpointLoadBalancerStrategy(Endpoint endpoint) {
+        this.endpoint = endpoint;
     }
 
-    @Bean
-    public Validator validator() {
-        return new ValidatorImpl();
+    @Override
+    public String chooseEndpoint(Request request) {
+        return endpoint.getTarget();
     }
 }

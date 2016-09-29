@@ -29,7 +29,8 @@ import java.util.regex.Pattern;
  * A simple path resolver based on context paths definition.
  * This implementation doesn't use regex at all.
  *
- * @author David BRASSELY (brasseld at gmail.com)
+ * @author David BRASSELY (david.brassely at graviteesource.com)
+ * @author GraviteeSource Team
  */
 public class PathResolverImpl implements PathResolver {
 
@@ -61,20 +62,14 @@ public class PathResolverImpl implements PathResolver {
             }
         }
 
-        if (bestPath != null) {
-            return bestPath;
-        } else {
-            // Returns the root path
-            // TODO: remove the getOrDefault as soon as all references to /* have been removed
-            return api.getPaths().getOrDefault(URL_PATH_SEPARATOR, api.getPaths().get("/*"));
-        }
+        return bestPath;
     }
 
     private Pattern toRegexPath(String path) {
         String [] branches = path.split(URL_PATH_SEPARATOR);
         StringBuilder buffer = new StringBuilder(api.getProxy().getContextPath());
 
-        if (! (buffer.charAt(buffer.length() - 1) == '/')) {
+        if (buffer.charAt(buffer.length() - 1) != '/') {
             buffer.append(URL_PATH_SEPARATOR);
         }
 

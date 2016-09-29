@@ -17,9 +17,9 @@ package io.gravitee.gateway.handlers.api.manager.impl;
 
 import io.gravitee.common.event.EventManager;
 import io.gravitee.gateway.handlers.api.definition.Api;
+import io.gravitee.gateway.handlers.api.manager.ApiManager;
 import io.gravitee.gateway.handlers.api.validator.ValidationException;
 import io.gravitee.gateway.handlers.api.validator.Validator;
-import io.gravitee.gateway.handlers.api.manager.ApiManager;
 import io.gravitee.gateway.reactor.ReactorEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author David BRASSELY (david at gravitee.io)
+ * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
 public class ApiManagerImpl implements ApiManager {
@@ -56,6 +56,8 @@ public class ApiManagerImpl implements ApiManager {
             apis.put(api.getId(), api);
 
             if (api.isEnabled()) {
+                //TODO: load plan for this API
+
                 eventManager.publishEvent(ReactorEvent.DEPLOY, api);
             } else {
                 logger.debug("{} is not enabled. Skip deployment.", api);

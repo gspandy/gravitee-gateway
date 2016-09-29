@@ -13,38 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.gravitee.gateway.handlers.api.el;
+package io.gravitee.gateway.handlers.api.policy;
 
-import io.gravitee.common.http.HttpHeaders;
+import io.gravitee.gateway.api.ExecutionContext;
 import io.gravitee.gateway.api.Request;
-
-import java.util.Map;
+import io.gravitee.gateway.api.Response;
+import io.gravitee.gateway.policy.StreamType;
+import io.gravitee.gateway.policy.impl.PolicyChain;
 
 /**
- * @author David BRASSELY (david at gravitee.io)
+ * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
-public class EvaluableRequest {
+public interface PolicyChainResolver {
 
-    private final Request request;
-
-    public EvaluableRequest(Request request) {
-        this.request = request;
-    }
-
-    public String getId() {
-        return request.id();
-    }
-
-    public HttpHeaders getHeaders() {
-        return request.headers();
-    }
-
-    public Map<String, String> getParams() {
-        return request.parameters();
-    }
-
-    public String[] getPaths() {
-        return request.path().split("/");
-    }
+    PolicyChain resolve(StreamType streamType, Request request, Response response, ExecutionContext executionContext);
 }

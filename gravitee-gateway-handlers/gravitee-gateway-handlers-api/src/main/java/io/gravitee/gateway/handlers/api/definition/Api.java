@@ -24,7 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author David BRASSELY (david at gravitee.io)
+ * @author David BRASSELY (david.brassely at graviteesource.com)
  * @author GraviteeSource Team
  */
 public class Api extends io.gravitee.definition.model.Api implements Reactable<Api> {
@@ -32,6 +32,8 @@ public class Api extends io.gravitee.definition.model.Api implements Reactable<A
     private boolean enabled = true;
 
     private Date deployedAt;
+
+    private Map<String, Plan> plans;
 
     public boolean isEnabled() {
         return enabled;
@@ -47,6 +49,21 @@ public class Api extends io.gravitee.definition.model.Api implements Reactable<A
 
     public void setDeployedAt(Date deployedAt) {
         this.deployedAt = deployedAt;
+    }
+
+    public Plan getPlan(String plan) {
+        return plans.get(plan);
+    }
+
+    public Collection<Plan> getPlans() {
+        return plans.values();
+    }
+
+    public void setPlans(List<Plan> plans) {
+        this.plans = new HashMap<>();
+        for(Plan plan : plans) {
+            this.plans.put(plan.getId(), plan);
+        }
     }
 
     @Override
@@ -77,10 +94,16 @@ public class Api extends io.gravitee.definition.model.Api implements Reactable<A
 
     private Set<Policy> policies() {
         if (getPaths() == null)
-            return Collections.EMPTY_SET;
+            return Collections.emptySet();
 
         Set<io.gravitee.definition.model.Policy> policies = new HashSet<>();
 
+        // Default api-key policy
+        Policy apiKey = new Policy();
+        apiKey.setName("api-key");
+        policies.add(apiKey);
+
+        // Load policies from the API
         getPaths().values()
                 .forEach(path -> policies.addAll(
                         path.getRules()
@@ -88,6 +111,13 @@ public class Api extends io.gravitee.definition.model.Api implements Reactable<A
                                 .map(Rule::getPolicy)
                                 .distinct()
                                 .collect(Collectors.toSet())));
+
+        // Load policies from Plans
+        getPlans().stream()
+                .forEach(plan -> {
+                    if (plan.getPolicies() != null) {
+                        policies.addAll(plan.getPolicies());
+                    }});
 
         return policies;
     }
